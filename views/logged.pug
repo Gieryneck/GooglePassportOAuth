@@ -1,0 +1,10 @@
+html
+    head
+        title logged
+        //link(href="/css/style.css",rel="stylesheet",type="text/css")
+    body
+        include ./header.pug
+        p.description Thanks,  #{user.displayName}. 
+        h2 Hello #{user2}
+        a.login-button(href="/next") Click here go next!
+        include ./footer.pug

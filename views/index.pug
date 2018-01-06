@@ -1,0 +1,10 @@
+html
+    head
+        title= name
+        //link(href="/css/style.css",rel="stylesheet",type="text/css")
+    body
+        include ./header.pug
+        h2 Hello #{user}
+        p.description This page is for logging with Google. Just click the button to log in!
+        a.login-button(href="/auth/google") Click here to log with Google!
+        include ./footer.pug
