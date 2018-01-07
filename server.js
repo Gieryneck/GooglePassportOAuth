@@ -9,7 +9,8 @@ do jakich konretnie). Jeśli user zgodzi się na dostep, to zostanie przekierowa
 http://localhost:3000/auth/google/callback. W tym przekierowaniu zawarty będzie Authorization Code - jest to kod dostępu dla apki
 który musimy jeszcze pokazać Authorization Server, aby otrzymac access token. Access token zezwala na dostep do danych
 usera na Resource Server(Authorization Server i Resource Server to może być ten sam server, ale nie musi). Wraz z access token
-dostajemy jeszcze refresh token ktory pozwala na odnowienie access token gdy ten wygasnie.
+dostajemy jeszcze refresh token ktory pozwala na odnowienie access token gdy ten wygasnie. Po otrzymaniu Authorization Code
+resztą zajmie się passport i Goggle Strategy.
 
 */
 
@@ -43,13 +44,10 @@ passport.serializeUser(function(user, done) {
     done(null, user);
 });
 
-// nie wywołuje się
 passport.deserializeUser(function(obj, done) {
     console.log(obj.id);
     done(null, obj);
 });
-
-
 
 
 passport.use(new GoogleStrategy({
@@ -67,31 +65,30 @@ passport.use(new GoogleStrategy({
         cb(null, profile);
         /* Przy tworzeniu instancji klasy GoogleStrategy podajemy dane, które posiadamy w pliku config.js. 
         W odpowiedzi będziemy otrzymywać profil użytkownika, więc w tym miejscu przypiszemy go do zmiennej googleProfile. */
-
     }
 ));
 
 
-
 app.set('view engine', 'pug');
 app.set('views', './views');
+
 app.use(passport.initialize());
 app.use(passport.session());
 
 
-//app routes
+// app routes
 app.get('/', function(req, res){
-    console.log(req.user)
-    res.render('index', { user: req.user });
+    res.render('index', { name: 'OAuth App' });
 });
 
 app.get('/logged', function(req, res){
-    res.render('logged', { user: googleProfile, user2: req.user });
+    res.render('logged', { name: 'OAuth App', user: googleProfile });
 });
 
 app.get('/next', function(req, res){
-    res.render('next', { user: googleProfile, user2: req.user });
+    res.render('next', { name: 'OAuth App', user: googleProfile });
 });
+
 
 // przekierowanie usera na strone google w celu uwierzytelnienia
 app.get('/auth/google',
@@ -99,8 +96,7 @@ passport.authenticate('google', {
 scope : ['profile', 'email']
 }));
 
-// przekierowanie powrotne do nas wraz z kodem autoryzacyjnym ktory mozemy wymienic na access token
-
+// przekierowanie powrotne do nas wraz z kodem autoryzacyjnym ktory passport wymienia na access token
 app.get('/auth/google/callback', 
   passport.authenticate('google', { failureRedirect: '/' }),
   function(req, res) {

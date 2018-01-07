@@ -1,10 +1,8 @@
 html
-    head
-        title next
-        //link(href="/css/style.css",rel="stylesheet",type="text/css")
+    include ./htmlHead.pug    
     body
         include ./header.pug
-        p.description lorem ipsum  lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum ,  #{user.displayName}. 
-        h2 Hello #{user2}
-        a.login-button(href="/logged") Click here go back!
+        p.description This is next page and you still see your name, #{user.displayName}. You are logged with Google.
+      
+        a.button(href="/logged") Click here go back!
         include ./footer.pug

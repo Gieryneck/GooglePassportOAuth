@@ -1,10 +1,19 @@
 html
-    head
-        title= name
-        //link(href="/css/style.css",rel="stylesheet",type="text/css")
+    include ./htmlHead.pug
     body
         include ./header.pug
-        h2 Hello #{user}
-        p.description This page is for logging with Google. Just click the button to log in!
-        a.login-button(href="/auth/google") Click here to log with Google!
+
+        h2 Hello there!
+        p.description This page is for logging with Google with use of OAuth2. OAuth 2.0 is the industry-standard protocol for authorization. 
+        p.description Check the links below if you wnat to know more.
+                            
+        ul.linklist
+            li
+                a(href="https://medium.com/@darutk/the-simplest-guide-to-oauth-2-0-8c71bd9a15bb") The Simplest Guide To OAuth 2.0
+            li
+                a(href="https://stormpath.com/blog/what-the-heck-is-oauth") What the Heck is OAuth?   
+            li
+                a(href="https://medium.com/@technospace/an-introduction-to-oauth-2-0-4c71b5fb19ff") An Introduction to OAuth 2.0
+
+        a.button(href="/auth/google") Click here to log in with your Google account!
         include ./footer.pug
